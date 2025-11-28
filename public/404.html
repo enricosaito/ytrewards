@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>LandTube - Redirecting...</title>
+    <title>LandTube - Page Not Found</title>
     <script>
-      // Salva a URL atual no sessionStorage para redirecionamento SPA
-      sessionStorage.redirect = location.href;
+      // Single Page Apps for GitHub Pages / Vercel
+      // https://github.com/rafgraph/spa-github-pages
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
     </script>
-    <meta http-equiv="refresh" content="0;URL='/landtube-watch-earn/'">
   </head>
   <body>
-    <p>Redirecting to LandTube...</p>
+    <!-- This content will be replaced by the SPA router -->
   </body>
 </html>

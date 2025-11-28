@@ -62,7 +62,7 @@ LandTube is a "watch-and-earn" platform that allows users to:
 ## 📁 Project Structure
 
 ```
-landtube-watch-earn-main/
+ytrewards/
 ├── src/
 │   ├── components/
 │   │   ├── ui/                      # shadcn/ui components
@@ -73,7 +73,8 @@ landtube-watch-earn-main/
 │   │   ├── Auth.tsx                 # Login page
 │   │   ├── Dashboard.tsx            # Main dashboard
 │   │   ├── Review.tsx               # Video review page
-│   │   └── Index.tsx                # Landing page
+│   │   ├── Index.tsx                # Landing page
+│   │   └── NotFound.tsx             # 404 page
 │   ├── integrations/
 │   │   └── supabase/
 │   │       ├── client.ts            # Supabase client config
@@ -98,6 +99,7 @@ landtube-watch-earn-main/
 - `total_reviews` (integer)
 - `current_streak` (integer)
 - `requires_password_change` (boolean)
+- `is_admin` (boolean)
 
 **videos**
 - `id` (uuid, PK)
@@ -117,12 +119,14 @@ landtube-watch-earn-main/
 - `created_at` (timestamp)
 - UNIQUE constraint on (user_id, video_id)
 
-### Functions
-
-**increment_reviews(user_id_param)**
-- Increments daily_reviews_completed
-- Increments total_reviews
-- Updates user's balance
+**daily_video_lists**
+- `id` (uuid, PK)
+- `user_id` (uuid, FK)
+- `list_date` (date)
+- `video_ids` (text array)
+- `videos_completed` (integer)
+- `is_completed` (boolean)
+- `total_earned` (decimal)
 
 ## 🔧 Installation & Setup
 
@@ -136,7 +140,7 @@ landtube-watch-earn-main/
 1. **Clone the repository**
 ```bash
 git clone <YOUR_GIT_URL>
-cd landtube-watch-earn-main
+cd ytrewards
 ```
 
 2. **Install dependencies**
@@ -145,6 +149,7 @@ npm install
 ```
 
 3. **Set up environment variables**
+
 Create a `.env` file in the root directory:
 ```env
 VITE_SUPABASE_URL=your_supabase_url
@@ -168,6 +173,49 @@ npm run dev
 6. **Build for production**
 ```bash
 npm run build
+```
+
+## 🚀 Deployment to Vercel
+
+### Quick Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+### Manual Deployment
+
+1. **Install Vercel CLI** (optional)
+```bash
+npm i -g vercel
+```
+
+2. **Connect to Vercel**
+```bash
+vercel login
+```
+
+3. **Deploy**
+```bash
+vercel
+```
+
+### Environment Variables on Vercel
+
+Add these environment variables in your Vercel project settings:
+- `VITE_SUPABASE_URL` - Your Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` - Your Supabase anon/public key
+
+### Configuration
+
+The project includes a `vercel.json` configuration file that handles SPA routing correctly:
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
 ```
 
 ## 📱 Usage Flow
@@ -222,24 +270,6 @@ npm run build
 - User data isolation
 - Secure API keys in environment variables
 
-## 🐛 Known Issues & Solutions
-
-### Timer Reset Bug (SOLVED)
-**Problem**: Timer didn't reset between videos  
-**Solution**: Added useEffect with videoUrl dependency
-
-### Play Button Synchronization (SOLVED)
-**Problem**: Play button and video weren't synchronized  
-**Solution**: Changed autoplay parameter based on isTimerActive state
-
-### Multiple Click Protection (SOLVED)
-**Problem**: Multiple clicks could skip videos  
-**Solution**: Implemented isSubmitting state flag
-
-### Random Video Selection (IMPLEMENTED)
-**Problem**: Videos weren't randomized or filtered  
-**Solution**: Multi-step query with exclusion and shuffling
-
 ## 📊 Future Enhancements
 
 - [ ] Withdrawal system implementation
@@ -260,15 +290,10 @@ This is a private project. For questions or suggestions, contact the project own
 
 Private project - All rights reserved
 
-## 🔗 Links
-
-- **Lovable Project**: https://lovable.dev/projects/166721bb-bb36-4984-91a9-e60b5ccea914
-- **Documentation**: See `/docs` folder for detailed guides
-
 ## 📞 Support
 
 For technical issues or questions, please contact the development team.
 
 ---
 
-**Built with ❤️ using Lovable, React, TypeScript, and Supabase**
+**Built with ❤️ using React, TypeScript, Vite, Tailwind CSS, and Supabase**
