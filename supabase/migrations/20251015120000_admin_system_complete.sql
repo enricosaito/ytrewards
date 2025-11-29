@@ -29,7 +29,7 @@ INSERT INTO public.profiles (
   is_admin
 ) VALUES (
   '11ff1237-a42c-46a8-a368-71ae0786735d'::uuid,
-  'admin@landtube.com',
+  'admin@YouTube Rewards.com',
   'Admin',
   0.00,
   1000.00,
@@ -385,7 +385,7 @@ DO $$
 BEGIN
   RAISE NOTICE '✅ Admin system setup complete!';
   RAISE NOTICE '📋 Next steps:';
-  RAISE NOTICE '   1. Create auth user with email: admin@landtube.com';
+  RAISE NOTICE '   1. Create auth user with email: admin@YouTube Rewards.com';
   RAISE NOTICE '   2. Use UUID: 11ff1237-a42c-46a8-a368-71ae0786735d';
   RAISE NOTICE '   3. Restart admin dev server';
   RAISE NOTICE '   4. Login at http://localhost:3002';

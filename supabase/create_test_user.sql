@@ -1,5 +1,5 @@
 -- ============================================
--- Script para criar usuário teste no LandTube
+-- Script para criar usuário teste no YouTube Rewards
 -- ============================================
 -- Execute este script no SQL Editor do Supabase Dashboard
 
@@ -30,7 +30,7 @@ INSERT INTO auth.users (
   gen_random_uuid(), -- ID do usuário (será gerado automaticamente)
   'authenticated',
   'authenticated',
-  'teste@landtube.com', -- EMAIL DO TESTE
+  'teste@YouTube Rewards.com', -- EMAIL DO TESTE
   crypt('senha123', gen_salt('bf')), -- SENHA: senha123
   now(),
   '{"provider":"email","providers":["email"]}',
@@ -45,7 +45,7 @@ INSERT INTO auth.users (
 
 -- Agora pegue o UUID gerado e use abaixo
 -- Para pegar o UUID do usuário criado, execute:
--- SELECT id, email FROM auth.users WHERE email = 'teste@landtube.com';
+-- SELECT id, email FROM auth.users WHERE email = 'teste@YouTube Rewards.com';
 
 -- ============================================
 -- Opção 2: MÉTODO MAIS SIMPLES (RECOMENDADO)
@@ -53,7 +53,7 @@ INSERT INTO auth.users (
 -- Se a Opção 1 não funcionar, use este método:
 -- 1. Vá em Authentication > Users no Dashboard do Supabase
 -- 2. Clique em "Add User" > "Create new user"
--- 3. Email: teste@landtube.com
+-- 3. Email: teste@YouTube Rewards.com
 -- 4. Password: senha123
 -- 5. Copie o UUID do usuário criado
 -- 6. Execute o INSERT abaixo substituindo o UUID:
@@ -72,7 +72,7 @@ INSERT INTO public.profiles (
   requires_password_change
 ) VALUES (
   'COLE_O_UUID_DO_USUARIO_AQUI'::uuid, -- Substitua pelo UUID do usuário criado
-  'teste@landtube.com',
+  'teste@YouTube Rewards.com',
   'Usuário Teste',
   0.00,
   1000.00,
@@ -118,7 +118,7 @@ BEGIN
       new_user_id,
       'authenticated',
       'authenticated',
-      'teste@landtube.com',
+      'teste@YouTube Rewards.com',
       crypt('senha123', gen_salt('bf')),
       now(),
       '{"provider":"email","providers":["email"]}',
@@ -152,7 +152,7 @@ BEGIN
     requires_password_change
   ) VALUES (
     new_user_id,
-    'teste@landtube.com',
+    'teste@YouTube Rewards.com',
     'Usuário Teste',
     0.00,
     1000.00,
@@ -164,7 +164,7 @@ BEGIN
   );
   
   RAISE NOTICE 'Perfil criado com sucesso!';
-  RAISE NOTICE 'Email: teste@landtube.com';
+  RAISE NOTICE 'Email: teste@YouTube Rewards.com';
   RAISE NOTICE 'Senha: senha123';
 END $$;
 
@@ -179,11 +179,11 @@ SELECT
   p.balance
 FROM auth.users u
 LEFT JOIN public.profiles p ON u.id = p.user_id
-WHERE u.email = 'teste@landtube.com';
+WHERE u.email = 'teste@YouTube Rewards.com';
 
 -- ============================================
 -- CREDENCIAIS DO USUÁRIO TESTE
 -- ============================================
--- Email: teste@landtube.com
+-- Email: teste@YouTube Rewards.com
 -- Senha: senha123
 -- ============================================

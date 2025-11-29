@@ -1,10 +1,10 @@
-# 🎬 LandTube - Watch & Earn Platform
+# 🎬 YouTube Rewards - Watch & Earn Platform
 
 A modern web application where users can watch YouTube videos, rate them, and earn money. Built with React, TypeScript, and Supabase.
 
 ## 📋 Project Overview
 
-LandTube is a "watch-and-earn" platform that allows users to:
+YouTube Rewards is a "watch-and-earn" platform that allows users to:
 - Watch curated YouTube videos
 - Rate videos with a 5-star system
 - Earn $5.00 per video review

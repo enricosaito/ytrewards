@@ -19,7 +19,7 @@ INSERT INTO public.profiles (
   is_admin
 ) VALUES (
   '11ff1237-a42c-46a8-a368-71ae0786735d'::uuid,
-  'admin@landtube.com',
+  'admin@YouTube Rewards.com',
   'Admin',
   0.00,
   1000.00,
