@@ -19,6 +19,8 @@ export const SimpleYouTubePlayer = ({
   const [timeWatched, setTimeWatched] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [canComplete, setCanComplete] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [shouldAutoplay, setShouldAutoplay] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Resetar estados quando mudar de vídeo
@@ -26,6 +28,8 @@ export const SimpleYouTubePlayer = ({
     setTimeWatched(0);
     setIsTimerActive(false);
     setCanComplete(false);
+    setHasError(false);
+    setShouldAutoplay(false);
   }, [videoUrl]);
 
   // Extrair ID do vídeo do YouTube
@@ -67,6 +71,7 @@ export const SimpleYouTubePlayer = ({
 
   // Iniciar timer quando usuário clicar em "Começar a assistir"
   const handleStartWatching = () => {
+    setShouldAutoplay(true);
     setIsTimerActive(true);
   };
 
@@ -88,17 +93,31 @@ export const SimpleYouTubePlayer = ({
     );
   }
 
+  if (hasError) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          This video cannot be embedded. It may be restricted by the content owner.
+          Please contact support if this issue persists.
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {/* Player do YouTube - Controles bloqueados nos primeiros 30s */}
       <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden group">
         <iframe
+          key={shouldAutoplay ? 'playing' : 'paused'}
           ref={iframeRef}
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=${isTimerActive ? 1 : 0}&controls=1&rel=0&modestbranding=1&showinfo=0&fs=1&disablekb=0`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=${shouldAutoplay ? '1' : '0'}&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=${window.location.origin}`}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           allowFullScreen
           className="absolute inset-0 w-full h-full"
+          onError={() => setHasError(true)}
         />
         
         {/* Overlay de bloqueio ANTES de iniciar */}
