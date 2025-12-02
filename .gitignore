@@ -36,3 +36,4 @@ SUPABASE_SETUP_GUIDE.md
 .vercel
 *.sql
 *.MD
+*.sh
