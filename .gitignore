@@ -31,7 +31,8 @@ dist-ssr
 *.sw?
 
 # Supabase
-.supabase
+.supabase   
 SUPABASE_SETUP_GUIDE.md
 .vercel
 *.sql
+*.MD
