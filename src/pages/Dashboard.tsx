@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Star, CheckCircle2, Flame, Trophy, Lock, HelpCircle } from "lucide-react";
+import { Star, CheckCircle2, Flame, Trophy, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { ChangePasswordModal } from "@/components/ChangePasswordModal";
 
@@ -276,19 +276,6 @@ const Dashboard = () => {
               : "Start Reviews"}
           </Button>
         </Card>
-      </div>
-
-      {/* Support Link - Bottom Right Corner */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate("/support")}
-          className="text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted transition-all opacity-60 hover:opacity-100"
-        >
-          <HelpCircle className="w-4 h-4 mr-2" />
-          Support
-        </Button>
       </div>
 
       <ChangePasswordModal

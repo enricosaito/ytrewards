@@ -7,12 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Play } from "lucide-react";
 import { toast } from "sonner";
+import { ForgotPasswordModal } from "@/components/ForgotPasswordModal";
 
 const Auth = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,7 +146,8 @@ const Auth = () => {
               <div className="text-right">
                 <button
                   type="button"
-                  className="text-sm text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Forgot password?
                 </button>
@@ -196,6 +199,11 @@ const Auth = () => {
           </TabsContent>
         </Tabs>
       </Card>
+
+      <ForgotPasswordModal
+        open={showForgotPassword}
+        onOpenChange={setShowForgotPassword}
+      />
     </div>
   );
 };

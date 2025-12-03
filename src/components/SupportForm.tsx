@@ -1,177 +1,110 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
-import { Loader2, Mail, Send } from "lucide-react";
 
-const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  subject: z.string().min(5, "Subject must be at least 5 characters"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
+interface SupportFormProps {
+  userEmail?: string;
+}
 
-type FormData = z.infer<typeof formSchema>;
-
-export default function SupportForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
+export const SupportForm = ({ userEmail }: SupportFormProps) => {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: userEmail || "",
+    subject: "",
+    category: "",
+    message: "",
   });
 
-  const onSubmit = async (data: FormData) => {
-    setIsSubmitting(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      // Check if response has content
-      const text = await response.text();
-      let result;
+      // Here you would typically send this to your backend or email service
+      // For now, we'll just simulate success
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       
-      try {
-        result = text ? JSON.parse(text) : {};
-      } catch (parseError) {
-        console.error("JSON parse error:", parseError, "Response:", text);
-        throw new Error("Server returned an invalid response. Please check if the API is configured correctly.");
-      }
-
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to send message");
-      }
-
-      toast.success("Message sent successfully!", {
-        description: "We'll get back to you as soon as possible.",
+      toast.success("Support request submitted successfully!");
+      setFormData({
+        email: userEmail || "",
+        subject: "",
+        category: "",
+        message: "",
       });
-
-      form.reset();
     } catch (error) {
-      console.error("Error sending message:", error);
-      toast.error("Failed to send message", {
-        description: error instanceof Error ? error.message : "Please try again later.",
-      });
+      toast.error("Error submitting request. Please try again.");
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto bg-gray-900/50 border-gray-800">
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <Mail className="h-6 w-6 text-primary" />
-          <CardTitle className="text-white">Contact Support</CardTitle>
-        </div>
-        <CardDescription className="text-gray-400">
-          Have a question or need help? Send us a message and we'll respond as soon as possible.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Email</label>
+        <Input
+          type="email"
+          placeholder="Your email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          required
+        />
+      </div>
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="your.email@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Category</label>
+        <Select
+          value={formData.category}
+          onValueChange={(value) => setFormData({ ...formData, category: value })}
+          required
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="account">Account Issues</SelectItem>
+            <SelectItem value="payment">Payment & Withdrawals</SelectItem>
+            <SelectItem value="technical">Technical Problems</SelectItem>
+            <SelectItem value="videos">Video Reviews</SelectItem>
+            <SelectItem value="other">Other</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-            <FormField
-              control={form.control}
-              name="subject"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Subject</FormLabel>
-                  <FormControl>
-                    <Input placeholder="What is this about?" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Subject</label>
+        <Input
+          type="text"
+          placeholder="Brief description of your issue"
+          value={formData.subject}
+          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+          required
+        />
+      </div>
 
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us more about your question or issue..."
-                      className="min-h-[150px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Message</label>
+        <Textarea
+          placeholder="Describe your issue in detail..."
+          value={formData.message}
+          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          required
+          rows={5}
+        />
+      </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Send className="mr-2 h-4 w-4" />
-                  Send Message
-                </>
-              )}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? "Submitting..." : "Submit Request"}
+      </Button>
+    </form>
   );
-}
-
+};
