@@ -18,6 +18,7 @@ interface SupportFormProps {
 export const SupportForm = ({ userEmail }: SupportFormProps) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
     email: userEmail || "",
     subject: "",
     category: "",
@@ -29,19 +30,48 @@ export const SupportForm = ({ userEmail }: SupportFormProps) => {
     setLoading(true);
 
     try {
-      // Here you would typically send this to your backend or email service
-      // For now, we'll just simulate success
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      toast.success("Support request submitted successfully!");
+      // Build the subject with category
+      const fullSubject = formData.category 
+        ? `[${formData.category}] ${formData.subject}`
+        : formData.subject;
+
+      // Call the Resend API endpoint
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: fullSubject,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send message");
+      }
+
+      toast.success("Support request submitted successfully!", {
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      // Reset form
       setFormData({
+        name: "",
         email: userEmail || "",
         subject: "",
         category: "",
         message: "",
       });
     } catch (error) {
-      toast.error("Error submitting request. Please try again.");
+      console.error("Error submitting request:", error);
+      toast.error("Error submitting request", {
+        description: error instanceof Error ? error.message : "Please try again.",
+      });
     } finally {
       setLoading(false);
     }
@@ -49,6 +79,17 @@ export const SupportForm = ({ userEmail }: SupportFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Name</label>
+        <Input
+          type="text"
+          placeholder="Your name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          required
+        />
+      </div>
+
       <div className="space-y-2">
         <label className="text-sm font-medium">Email</label>
         <Input
@@ -71,11 +112,11 @@ export const SupportForm = ({ userEmail }: SupportFormProps) => {
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="account">Account Issues</SelectItem>
-            <SelectItem value="payment">Payment & Withdrawals</SelectItem>
-            <SelectItem value="technical">Technical Problems</SelectItem>
-            <SelectItem value="videos">Video Reviews</SelectItem>
-            <SelectItem value="other">Other</SelectItem>
+            <SelectItem value="Account">Account Issues</SelectItem>
+            <SelectItem value="Payment">Payment & Withdrawals</SelectItem>
+            <SelectItem value="Technical">Technical Problems</SelectItem>
+            <SelectItem value="Videos">Video Reviews</SelectItem>
+            <SelectItem value="Other">Other</SelectItem>
           </SelectContent>
         </Select>
       </div>
