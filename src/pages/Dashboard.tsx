@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Star, CheckCircle2, Flame, Trophy, Lock } from "lucide-react";
+import { Star, CheckCircle2, Flame, Trophy, Lock, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { ChangePasswordModal } from "@/components/ChangePasswordModal";
 
@@ -127,16 +127,27 @@ const Dashboard = () => {
               Review videos, accumulate points, and reach your goal.
             </p>
           </div>
-          <div className="text-left md:text-right">
-            <p className="text-sm text-muted-foreground">{profile?.email}</p>
-            <p className="text-xs text-muted-foreground">
-              {new Date().toLocaleDateString("pt-BR", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
+          <div className="text-left md:text-right space-y-2">
+            <div>
+              <p className="text-sm text-muted-foreground">{profile?.email}</p>
+              <p className="text-xs text-muted-foreground">
+                {new Date().toLocaleDateString("pt-BR", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => navigate("/support")}
+            >
+              <HelpCircle className="w-4 h-4 mr-2" />
+              Need Help?
+            </Button>
           </div>
         </div>
 
