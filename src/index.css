@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* YouTube Rewards Dark Cinematic Theme */
+    /* YT Rewards Dark Cinematic Theme */
     --background: 0 0% 4%;
     --foreground: 0 0% 95%;
 
@@ -18,7 +18,7 @@ All colors MUST be HSL.
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 95%;
 
-    /* YouTube Red - Primary Action Color */
+    /* YTRed - Primary Action Color */
     --primary: 0 100% 45%;
     --primary-foreground: 0 0% 100%;
 

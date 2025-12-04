@@ -107,13 +107,13 @@ export const SimpleYouTubePlayer = ({
 
   return (
     <div className="space-y-4">
-      {/* Player do YouTube - Controles bloqueados nos primeiros 30s */}
+      {/* Player do YT - Controles bloqueados nos primeiros 30s */}
       <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden group">
         <iframe
           key={shouldAutoplay ? 'playing' : 'paused'}
           ref={iframeRef}
           src={`https://www.youtube.com/embed/${videoId}?autoplay=${shouldAutoplay ? '1' : '0'}&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=${window.location.origin}`}
-          title="YouTube video player"
+          title="YT video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           allowFullScreen
           className="absolute inset-0 w-full h-full"

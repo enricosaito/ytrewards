@@ -1,11 +1,11 @@
-# 🎬 YouTube Rewards - Watch & Earn Platform
+# 🎬 YT Rewards - Watch & Earn Platform
 
-A modern web application where users can watch YouTube videos, rate them, and earn money. Built with React, TypeScript, and Supabase.
+A modern web application where users can watch YT videos, rate them, and earn money. Built with React, TypeScript, and Supabase.
 
 ## 📋 Project Overview
 
-YouTube Rewards is a "watch-and-earn" platform that allows users to:
-- Watch curated YouTube videos
+YT Rewards is a "watch-and-earn" platform that allows users to:
+- Watch curated YT videos
 - Rate videos with a 5-star system
 - Earn $5.00 per video review
 - Track daily progress and earnings
@@ -22,7 +22,7 @@ YouTube Rewards is a "watch-and-earn" platform that allows users to:
 
 ### Video Review System
 - Random video selection (excludes already-reviewed videos)
-- Custom YouTube player with 30-second minimum watch time
+- Custom YT player with 30-second minimum watch time
 - Red/black/green themed UI
 - Clean progress bar without numbers
 - 5-star rating system
@@ -57,7 +57,7 @@ YouTube Rewards is a "watch-and-earn" platform that allows users to:
   - Authentication
   - Row Level Security
   - Real-time subscriptions
-- **YouTube Embed API** - Video player
+- **YT Embed API** - Video player
 
 ## 📁 Project Structure
 
@@ -255,7 +255,7 @@ The project includes a `vercel.json` configuration file that handles SPA routing
 - **Warning**: Yellow for goals
 
 ### Components
-- Custom YouTube player with overlay
+- Custom YT player with overlay
 - Minimal progress bars
 - Card-based layout
 - Responsive grid system

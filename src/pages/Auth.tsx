@@ -108,7 +108,7 @@ const Auth = () => {
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2 text-3xl font-bold">
             <Play className="w-8 h-8 text-primary fill-primary" />
-            <span>YouTube Rewards</span>
+            <span>YT Rewards</span>
           </div>
           <p className="text-muted-foreground">
             Sign in to your account to continue
